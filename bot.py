@@ -12,6 +12,7 @@ initialize_logger()
 def check_account_ok():
     try:
         #get account info
+
     except Exception as e:
         lg.error('Could not get account info')
         lg.info(str(e))
@@ -30,16 +31,6 @@ def clean_open_order():
     lg.info('Closing orders complete')
 
 
-# define asset
-def get_ticker():
-    # enter ticker with the keyboard
-    ticker = input('Write the ticker you want to operate with: ')
-
-    return ticker
-
-
-
-
 # execute trading bot
 def main():
 
@@ -48,15 +39,17 @@ def main():
 
     # check our trading account
     check_account_ok()
-    
+
     # close current orders
     clean_open_order():
 
-    # define asset
-    ticker = get_ticker()
+    # get ticker
+    ticker = input('Write the ticker you want to operate with: ')
 
-    # run trading bot
-        # IN: string (ticker)
+
+    trader = Trader(ticker) # initialize trading bot
+    trader.run()# run trading bot
+
         # OUT: boolean (True = success / False = failure)
 
 if __name__ == '__main__':
