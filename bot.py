@@ -33,8 +33,9 @@ def clean_open_order():
 
 # execute trading bot
 def main():
+    # OUT: boolean tradingSuccess (True = success / False = failure)
 
-    # initialize the logger
+    # initialize the logger (imported from logger)
     initialize_logger()
 
     # check our trading account
@@ -48,9 +49,15 @@ def main():
 
 
     trader = Trader(ticker) # initialize trading bot
-    trader.run()# run trading bot
+    tradingSuccess = trader.run() # run trading bot
 
-        # OUT: boolean (True = success / False = failure)
+    if not tradingSuccess:
+        lg.info('Trading was not successful, locking asset')
+
+
+
+
+
 
 if __name__ == '__main__':
     main()
