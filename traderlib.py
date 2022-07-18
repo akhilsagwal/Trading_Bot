@@ -17,6 +17,7 @@ class Trader:
         lg.info('Trader initialized with ticker %s' % ticker)
         self.ticker = ticker   # assign external variable to internal
 
+
     def is_tradeable(self,ticker):
 
         # ask the broker/API if "ticker" is tradeable
@@ -137,8 +138,8 @@ class Trader:
                 time.sleep(gvars.sleepTimeCP) # wait 5 seconds and retry
                 attempt += 1
 
-           lg.info('Position not found for %s, not waiting any more' % ticker)
-           return False
+            lg.info('Position not found for %s, not waiting any more' % ticker)
+            return False
 
     def get_shares_amount(self,tickerPrice):
         # works out the number of shared I want to buy/sell
@@ -212,24 +213,24 @@ class Trader:
                 ema50 = ti.ema(data, 50)
 
                 # checking EMAs relative position
-                    # if (ema50 > ema26) and (ema26 > ema9):
-                        lg.info('Trend detected for %s: long' % ticker)
-                        return 'long'
-                    # elif (ema50 < ema26) and (ema50 < ema9):
-                        lg.info('Trend detected for %s: short' % ticker)
-                        return 'short'
-                    # elif attempts <= maxAttempts:
-                        lg.info('Trend not clear for %s, waiting...' % ticker)
-                        attemp += 1
-                        time.sleep(60)
-                    # else:
-                        lg.info('Trend NOT detected for %s' % ticker)
-                        return False
+                # if (ema50 > ema26) and (ema26 > ema9):
+                lg.info('Trend detected for %s: long' % ticker)
+                return 'long'
+                # elif (ema50 < ema26) and (ema50 < ema9):
+                lg.info('Trend detected for %s: short' % ticker)
+                return 'short'
+                # elif attempts <= maxAttempts:
+                lg.info('Trend not clear for %s, waiting...' % ticker)
+                attemp += 1
+                time.sleep(60)
+                # else:
+                lg.info('Trend NOT detected for %s' % ticker)
+                return False
 
-         except Exception as e:
-             lg.error('Something went wrong at get general trend')
-             lg.error(e)
-             sys.exit()
+        except Exception as e:
+            lg.error('Something went wrong at get general trend')
+            lg.error(e)
+            sys.exit()
 
     def get_insant_trend(self,ticker,trend):
 
