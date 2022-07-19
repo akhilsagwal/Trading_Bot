@@ -39,12 +39,29 @@ def clean_open_orders(api):
         lg.error(e)
         sys.exit()
 
+def check_asset_ok(api,ticker):
+    #check whether the asset is OK for trading
+        # IN: ticker
+        # OUT: True if it exists and is tradable / False otherwise
+    try:
+        asset = api.get_asset(ticker)
+        if asset.tradable:
+            lg.info('Asset exists and tradable')
+            return True
+        else:
+            lg.info('Asset exists nut not tradable')
+            return False
+    except Exception as e:
+        lg.error('Asset does not exist or something happens!')
+        lg.error(e)
+        sys.exit()
+
+
 
 # execute trading bot
 def main():
 
-    api = tradeapi.REST(gvars.API_KEY, gvars.API_SECRET_KEY, gvars.API_URL)
-
+    api = tradeapi.REST(gvars.API_KEY, gvars.API_SECRET_KEY, gvars.API_URL, api_version='v2')
 
     # OUT: boolean tradingSuccess (True = success / False = failure)
 
@@ -56,22 +73,23 @@ def main():
 
     # close current orders
     clean_open_orders(api)
-    import pdb; pdb.set_trace()
+
     # get ticker
-    ticker = input('Write the ticker you want to operate with: ')
+    #ticker = input('Write the ticker you want to operate with: ')
+    ticker = 'AAPL'
 
+    check_asset_ok(api,ticker)
 
-    trader = Trader(ticker) # initialize trading bot
-    tradingSuccess = trader.run() # run trading bot library
+    trader = Trader(ticker,api) # initialize trading bot
+    while True:
+        tradingSuccess = trader.run(ticker) # run trading bot library
 
-    if not tradingSuccess:
-        lg.info('Trading was not successful, locking asset')
-        # wait whatever time
-
-
-
-
-
+        if not tradingSuccess:
+            lg.info('Trading was not successful, locking asset')
+            time.sleep(gvars.sleepTimeME)
+        else:
+            lg.info('Trading was successful!')
+            time.sleep(gvars.sleepTimeME)
 
 if __name__ == '__main__':
     main()
