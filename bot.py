@@ -49,8 +49,8 @@ def check_asset_ok(api,ticker):
             lg.info('Asset exists and tradable')
             return True
         else:
-            lg.info('Asset exists nut not tradable')
-            return False
+            lg.info('Asset exists but not tradable,exiting')
+            sys.exit()
     except Exception as e:
         lg.error('Asset does not exist or something happens!')
         lg.error(e)
