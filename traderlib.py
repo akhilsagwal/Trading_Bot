@@ -641,6 +641,8 @@ class Trader:
             # get_shares_amount: decide the total amount to invest
             sharesQuantity = self.get_shares_amount(self.currentPrice)
 
+            lg.info('\nDESIRED ENTRY PRICE: %.2f' % self.currentPrice)
+
             # submit order(limit)
             success = self.submit_order(
                         'limit',
